@@ -16,3 +16,4 @@ object Kata1 extends App {
 
   actorSystem.terminate()
 }
+

@@ -1,8 +1,6 @@
-import akka.actor.{ActorSystem, Cancellable}
+import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
-import akka.stream.scaladsl.{Flow, RunnableGraph, Sink, Source}
-
-import scala.concurrent.duration._
+import akka.stream.scaladsl.Source
 
 object Kata3 extends App {
   implicit val actorSystem: ActorSystem = ActorSystem("akka-streams-example")

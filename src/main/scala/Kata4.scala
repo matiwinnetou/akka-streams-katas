@@ -1,6 +1,6 @@
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
-import akka.stream.scaladsl.{Flow, Sink, Source}
+import akka.stream.scaladsl.{Sink, Source}
 import akka.{Done, NotUsed}
 
 import scala.concurrent.Future

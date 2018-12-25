@@ -17,8 +17,7 @@ object Kata10b extends App {
 
   val source: Source[Int, NotUsed] = Source(1 to 100)
 
-  val result: Future[Done] =
-      source.conflate((a, b) => a + b)
+  val result: Future[Done] = source.conflate((a, b) => a + b)
       .runWith(Sink.foreach(println))
 
 }

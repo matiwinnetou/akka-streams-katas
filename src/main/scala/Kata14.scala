@@ -23,7 +23,8 @@ object Kata14 extends App {
 
   val ftpFilesGraph: RunnableGraph[Future[immutable.Seq[FtpFile]]] =
     Ftp.ls("/", ftpSettings)
-      .toMat(Sink.seq)(Keep.right)
+    .async
+    .toMat(Sink.seq)(Keep.right)
 
   val ftpFilesF: Future[immutable.Seq[FtpFile]] = ftpFilesGraph.run
 

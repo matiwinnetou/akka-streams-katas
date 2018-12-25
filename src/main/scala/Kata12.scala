@@ -7,6 +7,7 @@ import akka.stream.alpakka.ftp.FtpSettings
 import akka.stream.alpakka.ftp.scaladsl.Ftp
 import akka.stream.scaladsl.{RunnableGraph, Sink}
 
+// this kata shows how to list files from an anonymous FTP server using alpakka
 object Kata12 extends App {
 
   implicit val actorSystem: ActorSystem = ActorSystem("akka-streams-example")

@@ -1,21 +1,17 @@
-import java.io
 import java.net.InetAddress
-import java.time.{Clock, LocalDateTime}
 
-import akka.NotUsed
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
 import akka.stream.alpakka.ftp.scaladsl.Ftp
 import akka.stream.alpakka.ftp.{FtpFile, FtpSettings}
-import akka.stream.scaladsl.{Flow, Keep, RunnableGraph, Sink, Source}
+import akka.stream.scaladsl.{Keep, RunnableGraph, Sink, Source}
 
 import scala.collection.immutable
-import scala.concurrent.{Await, Future}
 import scala.concurrent.duration._
+import scala.concurrent.{ExecutionContext, Future}
+import scala.util.{Failure, Success}
 
-// we will try to read all files from FTP every 30 seconds and dump to console
-
-// this task completely failed but it shows as a side-effect use of zipN operator
+// we will try to read all files from FTP every 30 seconds and dump to console file names
 object Kata14 extends App {
 
   implicit val actorSystem: ActorSystem = ActorSystem("akka-streams-example")
@@ -31,12 +27,17 @@ object Kata14 extends App {
 
   val ftpFilesF: Future[immutable.Seq[FtpFile]] = ftpFilesGraph.run
 
-  val files = Await.result(ftpFilesF, 10 minutes)
-
-  val tickSource = Source.tick(0 second, 30 second, files)
+  val tickSource = Source.tick(0 second, 30 second, ftpFilesF)
 
   val helloGraph = tickSource
-    .to(Sink.foreach((files: immutable.Seq[FtpFile]) => files.foreach(f => println(f.name))))
+    .to(Sink.foreach((filesF: Future[immutable.Seq[FtpFile]]) => {
+      import ExecutionContext.Implicits._
+
+      filesF.onComplete {
+        case Success(files) => files.foreach(f => println(f.name))
+        case Failure(ex) => println(ex.getMessage)
+      }
+    }))
 
   helloGraph.run()
 }

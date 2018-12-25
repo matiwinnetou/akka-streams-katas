@@ -13,8 +13,7 @@ import scala.collection.immutable
 import scala.concurrent.duration._
 
 // we will try to read all files from FTP every 2 minutes and dump to console
-
-// this task completely failed but it shows as a side-effect use of zipN operator
+// this task completely failed but it shows as an example to use of zipN operator
 object Kata13 extends App {
 
   implicit val actorSystem: ActorSystem = ActorSystem("akka-streams-example")

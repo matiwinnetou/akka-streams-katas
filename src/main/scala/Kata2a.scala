@@ -5,6 +5,7 @@ import akka.stream.scaladsl.{Flow, RunnableGraph, Sink, Source}
 import scala.concurrent.duration._
 
 object Kata2a extends App {
+
   implicit val actorSystem: ActorSystem = ActorSystem("akka-streams-example")
   implicit val materializer: ActorMaterializer = ActorMaterializer()
 
